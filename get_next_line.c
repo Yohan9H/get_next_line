@@ -6,7 +6,7 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:35:16 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/30 17:03:17 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:33:25 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*del_line_to_stash(char *stash)
 	if (!buffer)
 		return (free(stash), NULL);
 	j = 0;
+	i++;
 	while (stash[i])
 		buffer[j++] = stash[i++];
 	buffer[j] = '\0';
@@ -99,6 +100,8 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
+	if (buffer[0] == '\0')  // ajouter mais a voir si c'est bien une condition d'arret 
+		return (NULL);		// probleme mon gnl continue si il y a buffer = ""
 	buffer = read_file_and_maj_stash(fd, buffer);
 	if (!buffer)
 		return (NULL);
@@ -113,29 +116,23 @@ char	*get_next_line(int fd)
 
 #include <fcntl.h>
 #include <stdlib.h>
-int	main()
+int main()
 {
-	char	*line;
-	int		fd;
-	int		count;
+    int fd;
+    char *line;
+	int	count = 0;
 
-	fd = open("test.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		write(2,"error", 5);
-		return (-1);
-	}
-	count = 0;
-	while ()
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break;
-		printf("count[%d] : %s\n", count++, line);
-		free(line);
-		line = NULL;
-	}
-	free(line);
-	close(fd);
-	return (0);
+    fd = open("test.txt", O_RDONLY);
+    if (fd == -1)
+    {
+        perror("Error opening file");
+        return (1);
+    }
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("count[%d] : %s", count++, line);
+        free(line);
+    }
+    close(fd);
+    return (0);
 }
