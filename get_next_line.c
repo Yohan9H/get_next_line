@@ -6,7 +6,7 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:35:16 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/31 18:33:15 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:54:29 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ char	*take_line_to_stash(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	line = ft_calloc((i + 2), sizeof(char));
-	if (!line)
-		return (NULL);
+	// if (!line)
+	// 	return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 	{
@@ -105,31 +105,29 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	line = take_line_to_stash(buffer);
-	if (!line)
-		return (NULL);
 	buffer = del_line_to_stash(buffer);
 	return (line);
 }
 
-// #include <fcntl.h>
-// #include <stdlib.h>
-// int main()
-// {
-//     int fd;
-//     char *line;
-// 	//int	count = 1;
+#include <fcntl.h>
+#include <stdlib.h>
+int main()
+{
+    int fd;
+    char *line;
+	//int	count = 1;
 
-//     fd = open("mmmm.txt", O_RDONLY);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-//     close(fd);
-//     return (0);
-// }
+    fd = open("read_error.txt", O_RDONLY);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+    close(fd);
+    return (0);
+}

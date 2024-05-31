@@ -6,7 +6,7 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:33:49 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/31 14:52:18 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:49:19 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 10
 # endif
 
 #endif
