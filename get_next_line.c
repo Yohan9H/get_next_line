@@ -6,7 +6,7 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:35:16 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/31 14:31:40 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/05/31 16:53:04 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*add_line_buffer(char *buffer, char *line)
 
 	tmp = ft_strjoin(buffer, line);
 	free(buffer);
-	if (!tmp)
-		return (free(line), NULL);
+	// if (!tmp)
+	// 	return (free(line), NULL);
 	return (tmp);
 }
 
@@ -39,9 +39,10 @@ char	*read_file_and_maj_stash(int fd, char *stash)
 		if (bytes_read == -1)
 			return (free(buffer), NULL);
 		buffer[bytes_read] = '\0';
-		stash = add_line_buffer(stash, buffer);
+		stash = add_line_buffer(stash, buffer); 
 		if (ft_strchr(buffer, '\n'))
 			break ;
+		//ft_bzero(buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	return (stash);
@@ -58,6 +59,8 @@ char	*take_line_to_stash(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	line = ft_calloc((i + 2), sizeof(char));
+	if (!line)
+		return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 	{
@@ -102,7 +105,7 @@ char	*get_next_line(int fd)
 	line = take_line_to_stash(buffer);
 	buffer = del_line_to_stash(buffer);
 	if (buffer == NULL)
-		return (NULL);
+		return (free(buffer), NULL);
 	return (line);
 }
 
@@ -112,7 +115,7 @@ char	*get_next_line(int fd)
 // {
 //     int fd;
 //     char *line;
-// 	int	count = 0;
+// 	int	count = 1;
 
 //     fd = open("test.txt", O_RDONLY);
 //     if (fd == -1)
@@ -122,7 +125,7 @@ char	*get_next_line(int fd)
 //     }
 //     while ((line = get_next_line(fd)) != NULL)
 //     {
-//         printf("count[%d] : %s\n", count++, line);
+//         printf("count[%d] : %s", count++, line);
 //         free(line);
 //     }
 //     close(fd);
