@@ -6,7 +6,7 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:35:16 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/31 16:53:04 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:33:15 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*read_file_and_maj_stash(int fd, char *stash)
 		stash = add_line_buffer(stash, buffer); 
 		if (ft_strchr(buffer, '\n'))
 			break ;
-		//ft_bzero(buffer, BUFFER_SIZE);
+		ft_bzero(buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	return (stash);
@@ -84,6 +84,8 @@ char	*del_line_to_stash(char *stash)
 	if (!stash[i])
 		return (free(stash), NULL);
 	new_stash = ft_calloc((ft_strlen(stash) - i + 1), sizeof(char));
+	if (!new_stash)
+		return (free(stash), NULL);
 	j = 0;
 	i++;
 	while (stash[i])
@@ -103,9 +105,9 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	line = take_line_to_stash(buffer);
+	if (!line)
+		return (NULL);
 	buffer = del_line_to_stash(buffer);
-	if (buffer == NULL)
-		return (free(buffer), NULL);
 	return (line);
 }
 
@@ -115,19 +117,19 @@ char	*get_next_line(int fd)
 // {
 //     int fd;
 //     char *line;
-// 	int	count = 1;
+// 	//int	count = 1;
 
-//     fd = open("test.txt", O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error opening file");
-//         return (1);
-//     }
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("count[%d] : %s", count++, line);
-//         free(line);
-//     }
+//     fd = open("mmmm.txt", O_RDONLY);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
 //     close(fd);
 //     return (0);
 // }
