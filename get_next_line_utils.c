@@ -6,7 +6,7 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:35:19 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/31 11:28:46 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:10:34 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s || s[0] == '\0') // test
+	if (!s || s[0] == '\0')
 		return (0);
 	while (s[i])
 		i++;

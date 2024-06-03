@@ -6,12 +6,11 @@
 /*   By: yohurteb <yohurteb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:35:16 by yohurteb          #+#    #+#             */
-/*   Updated: 2024/05/31 18:54:29 by yohurteb         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:34:48 by yohurteb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*add_line_buffer(char *buffer, char *line)
 {
@@ -19,8 +18,8 @@ char	*add_line_buffer(char *buffer, char *line)
 
 	tmp = ft_strjoin(buffer, line);
 	free(buffer);
-	// if (!tmp)
-	// 	return (free(line), NULL);
+	if (!tmp)
+		return (free(line), NULL);
 	return (tmp);
 }
 
@@ -32,17 +31,18 @@ char	*read_file_and_maj_stash(int fd, char *stash)
 	if (!stash)
 		stash = ft_calloc(1, 1);
 	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buffer)
+		return (free(stash), NULL);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
-			return (free(buffer), NULL);
+			return (free(stash), free(buffer), NULL);
 		buffer[bytes_read] = '\0';
-		stash = add_line_buffer(stash, buffer); 
+		stash = add_line_buffer(stash, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
-		ft_bzero(buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	return (stash);
@@ -59,8 +59,8 @@ char	*take_line_to_stash(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	line = ft_calloc((i + 2), sizeof(char));
-	// if (!line)
-	// 	return (NULL);
+	if (!line)
+		return (free(stash), NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 	{
@@ -91,6 +91,7 @@ char	*del_line_to_stash(char *stash)
 	while (stash[i])
 		new_stash[j++] = stash[i++];
 	free(stash);
+	stash = NULL;
 	return (new_stash);
 }
 
@@ -100,7 +101,11 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
+	}
 	buffer = read_file_and_maj_stash(fd, buffer);
 	if (!buffer)
 		return (NULL);
@@ -109,25 +114,21 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-#include <fcntl.h>
-#include <stdlib.h>
-int main()
-{
-    int fd;
-    char *line;
-	//int	count = 1;
+// #include <fcntl.h>
+// #include <stdlib.h>
+// int main()
+// {
+//     int fd;
+//     char *line;
+// 	//int	count = 1;
 
-    fd = open("read_error.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-    close(fd);
-    return (0);
-}
+//     fd = open("read_error.txt", O_RDONLY);
+//     while ((line = get_next_line(fd)) != NULL) {
+//         printf("%s", line);
+//         free(line);
+//     }
+// 	// line = get_next_line(fd);
+// 	// printf("%s", line);
+//     close(fd);
+//     return (0);
+// }
